@@ -9,17 +9,21 @@ function App() {
   const [showSettings, setShowSettings] = useState(true);
 
   useEffect(() => {
-    let timer: number;
-    if (isRunning && totalTimeRemaining > 0) {
-      timer = setInterval(() => {
-        setTotalTimeRemaining((prevTime) => prevTime - 1);
-      }, 1000);
-    } else if (isRunning && totalTimeRemaining <= 0) {
-      setIsRunning(false);
-      setShowSettings(true);
+    if (!isRunning) {
+      return;
     }
+    const timer = setInterval(() => {
+      setTotalTimeRemaining(prevTime => {
+        if (prevTime <= 1) {
+          setIsRunning(false);
+          setShowSettings(true);
+          return 0;
+        }
+        return prevTime - 1;
+      });
+    }, 1000);
     return () => clearInterval(timer);
-  }, [isRunning, totalTimeRemaining]);
+  }, [isRunning]);
 
   const handleStart = () => {
     const totalSeconds = time * 60;
