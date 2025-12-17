@@ -42,6 +42,7 @@ function App() {
 
   const currentRepTimeRemaining = repTime > 0 ? totalTimeRemaining % repTime : 0;
   const correctedRepTime = currentRepTimeRemaining === 0 && totalTimeRemaining > 0 && isRunning ? repTime : currentRepTimeRemaining;
+  const currentRep = repTime > 0 ? Math.min(reps, Math.floor((time * 60 - totalTimeRemaining) / repTime) + 1) : 1;
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center font-mono">
@@ -85,6 +86,11 @@ function App() {
           </>
         ) : (
           <div className="text-center">
+            {reps > 0 && (
+            <div className="mb-12">
+              <p className="text-2xl tracking-widest">{currentRep} / {reps}</p>
+            </div>
+            )}
             <div className="mb-12">
               <p className="text-lg tracking-widest">TOTAL TIME</p>
               <p className="text-6xl font-bold">{formatTime(totalTimeRemaining)}</p>
