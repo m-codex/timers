@@ -1,0 +1,8 @@
+{
+  "builds": [
+    {
+      "src": "timer-app/package.json",
+      "use": "@vercel/static-build"
+    }
+  ]
+}
