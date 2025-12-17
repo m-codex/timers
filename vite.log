@@ -2,9 +2,8 @@
 > timer-app@0.0.0 dev
 > vite
 
-10:23:45 PM [vite] (client) Re-optimizing dependencies because lockfile has changed
 
-  VITE v7.3.0  ready in 494 ms
+  VITE v7.3.0  ready in 535 ms
 
   ➜  Local:   http://localhost:5173/
   ➜  Network: use --host to expose
