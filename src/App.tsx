@@ -35,12 +35,6 @@ function App() {
     setShowSettings(true);
   }
 
-  const formatTime = (seconds: number) => {
-    const minutes = Math.floor(seconds / 60);
-    const remainingSeconds = Math.floor(seconds % 60);
-    return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-  };
-
   const currentRepTimeRemaining = repTime > 0 ? totalTimeRemaining % repTime : 0;
   const correctedRepTime = currentRepTimeRemaining === 0 && totalTimeRemaining > 0 && isRunning ? repTime : currentRepTimeRemaining;
   const currentRep = repTime > 0 ? Math.min(reps, Math.floor((time * 60 - totalTimeRemaining) / repTime) + 1) : 1;
