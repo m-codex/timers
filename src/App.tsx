@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import CircularTimer from './components/CircularTimer';
 
+// App component
 function App() {
   const [reps, setReps] = useState(1);
   const [time, setTime] = useState(1);
