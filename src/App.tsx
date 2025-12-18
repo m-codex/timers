@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import CircularTimer from './components/CircularTimer';
 
 function App() {
   const [reps, setReps] = useState(1);
@@ -85,21 +86,14 @@ function App() {
             </button>
           </>
         ) : (
-          <div className="text-center">
-            {reps > 0 && (
-            <div className="mb-12">
-              <p className="text-2xl tracking-widest">{currentRep} / {reps}</p>
-            </div>
-            )}
-            <div className="mb-12">
-              <p className="text-lg tracking-widest">TOTAL TIME</p>
-              <p className="text-6xl font-bold">{formatTime(totalTimeRemaining)}</p>
-            </div>
-            <div className="mb-12">
-              <p className="text-lg tracking-widest">REP TIME</p>
-              <p className="text-6xl font-bold">{formatTime(correctedRepTime)}</p>
-            </div>
-            <button onClick={handleReset} className="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-lg tracking-widest">
+          <div className="flex flex-col items-center justify-center">
+            <CircularTimer
+              repTime={correctedRepTime}
+              totalRepTime={repTime}
+              currentRep={currentRep}
+              totalReps={reps}
+            />
+            <button onClick={handleReset} className="w-full max-w-xs bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-lg tracking-widest mt-8">
               RESET
             </button>
           </div>
