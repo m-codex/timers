@@ -1,4 +1,9 @@
 import { useState, useEffect } from 'react';
+import {
+  CircularProgressbarWithChildren,
+  buildStyles
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 function App() {
   const [reps, setReps] = useState(1);
@@ -7,6 +12,7 @@ function App() {
   const [totalTimeRemaining, setTotalTimeRemaining] = useState(0);
   const [repTime, setRepTime] = useState(0);
   const [showSettings, setShowSettings] = useState(true);
+  const [initialTime, setInitialTime] = useState(0);
 
   useEffect(() => {
     let timer: number;
@@ -23,6 +29,7 @@ function App() {
 
   const handleStart = () => {
     const totalSeconds = time * 60;
+    setInitialTime(totalSeconds);
     setTotalTimeRemaining(totalSeconds);
     setRepTime(totalSeconds / reps);
     setIsRunning(true);
@@ -43,6 +50,8 @@ function App() {
   const currentRepTimeRemaining = repTime > 0 ? totalTimeRemaining % repTime : 0;
   const correctedRepTime = currentRepTimeRemaining === 0 && totalTimeRemaining > 0 && isRunning ? repTime : currentRepTimeRemaining;
   const currentRep = repTime > 0 ? Math.min(reps, Math.floor((time * 60 - totalTimeRemaining) / repTime) + 1) : 1;
+
+  const percentage = initialTime > 0 ? ((initialTime - totalTimeRemaining) / initialTime) * 100 : 0;
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center font-mono">
@@ -85,21 +94,22 @@ function App() {
             </button>
           </>
         ) : (
-          <div className="text-center">
-            {reps > 0 && (
-            <div className="mb-12">
-              <p className="text-2xl tracking-widest">{currentRep} / {reps}</p>
+          <div className="text-center flex flex-col items-center">
+            <div className="w-64 h-64">
+                <CircularProgressbarWithChildren
+                    value={percentage}
+                    styles={buildStyles({
+                    pathColor: '#ffffff',
+                    trailColor: '#1f2937',
+                    })}
+                >
+                    <div className="text-center">
+                        <p className="text-6xl font-bold">{formatTime(correctedRepTime)}</p>
+                        <p className="text-2xl tracking-widest mt-2">{currentRep} / {reps}</p>
+                    </div>
+                </CircularProgressbarWithChildren>
             </div>
-            )}
-            <div className="mb-12">
-              <p className="text-lg tracking-widest">TOTAL TIME</p>
-              <p className="text-6xl font-bold">{formatTime(totalTimeRemaining)}</p>
-            </div>
-            <div className="mb-12">
-              <p className="text-lg tracking-widest">REP TIME</p>
-              <p className="text-6xl font-bold">{formatTime(correctedRepTime)}</p>
-            </div>
-            <button onClick={handleReset} className="w-full bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-lg tracking-widest">
+            <button onClick={handleReset} className="w-full max-w-xs bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-lg tracking-widest mt-12">
               RESET
             </button>
           </div>
