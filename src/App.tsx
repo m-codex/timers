@@ -6,6 +6,7 @@ function App() {
   const [time, setTime] = useState(1);
   const [isRunning, setIsRunning] = useState(false);
   const [totalTimeRemaining, setTotalTimeRemaining] = useState(0);
+  const [initialTotalTime, setInitialTotalTime] = useState(0);
   const [repTime, setRepTime] = useState(0);
   const [showSettings, setShowSettings] = useState(true);
 
@@ -24,6 +25,7 @@ function App() {
 
   const handleStart = () => {
     const totalSeconds = time * 60;
+    setInitialTotalTime(totalSeconds);
     setTotalTimeRemaining(totalSeconds);
     setRepTime(totalSeconds / reps);
     setIsRunning(true);
@@ -38,6 +40,7 @@ function App() {
   const currentRepTimeRemaining = repTime > 0 ? totalTimeRemaining % repTime : 0;
   const correctedRepTime = currentRepTimeRemaining === 0 && totalTimeRemaining > 0 && isRunning ? repTime : currentRepTimeRemaining;
   const currentRep = repTime > 0 ? Math.min(reps, Math.floor((time * 60 - totalTimeRemaining) / repTime) + 1) : 1;
+  const percentage = initialTotalTime > 0 ? ((initialTotalTime - totalTimeRemaining) / initialTotalTime) * 100 : 0;
 
   return (
     <div className="bg-black text-white min-h-screen flex flex-col items-center justify-center font-mono">
@@ -83,9 +86,9 @@ function App() {
           <div className="flex flex-col items-center justify-center">
             <CircularTimer
               repTime={correctedRepTime}
-              totalRepTime={repTime}
               currentRep={currentRep}
               totalReps={reps}
+              percentage={percentage}
             />
             <button onClick={handleReset} className="w-full max-w-xs bg-gray-800 hover:bg-gray-700 text-white font-bold py-3 px-4 rounded text-lg tracking-widest mt-8">
               RESET

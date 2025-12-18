@@ -2,9 +2,9 @@ import { CircularProgressBar } from '@tomickigrzegorz/react-circular-progress-ba
 
 interface CircularTimerProps {
   repTime: number;
-  totalRepTime: number;
   currentRep: number;
   totalReps: number;
+  percentage: number;
 }
 
 const formatTime = (seconds: number) => {
@@ -13,9 +13,7 @@ const formatTime = (seconds: number) => {
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-const CircularTimer = ({ repTime, totalRepTime, currentRep, totalReps }: CircularTimerProps) => {
-  const percentage = totalRepTime > 0 ? ((totalRepTime - repTime) / totalRepTime) * 100 : 0;
-
+const CircularTimer = ({ repTime, currentRep, totalReps, percentage }: CircularTimerProps) => {
   return (
     <div className="relative w-64 h-64">
       <CircularProgressBar
@@ -29,7 +27,7 @@ const CircularTimer = ({ repTime, totalRepTime, currentRep, totalReps }: Circula
         number={false}
       >
         <div className="absolute inset-0 flex flex-col items-center justify-center">
-          <p className="text-6xl font-bold">{formatTime(repTime)}</p>
+          <p className="text-6xl font-bold mb-2">{formatTime(repTime)}</p>
           <p className="text-2xl tracking-widest">{currentRep} / {totalReps}</p>
         </div>
       </CircularProgressBar>
